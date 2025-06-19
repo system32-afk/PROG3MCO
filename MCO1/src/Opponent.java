@@ -77,6 +77,14 @@ public class Opponent {
         Player.SetHP(-Attack);
     }
 
+    public void ChargeAttack(){
+        this.Attack *= 3;
+    }
+
+    public  void ResetAttack(){
+        this.Attack /= 3;
+    }
+
 
     //
     //         THIS IS A ROUGH SKETCH FOR FAUX-AI

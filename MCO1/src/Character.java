@@ -55,4 +55,12 @@ public class Character {
     public void Attack(Opponent Enemy, int Damage){
         Enemy.SetHP(-Damage);
     }
+
+    public void ChargeAttack(){
+        this.Attack *= 3;
+    }
+
+    public  void ResetAttack(){
+        this.Attack /= 3;
+    }
 }
