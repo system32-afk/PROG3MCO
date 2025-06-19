@@ -17,11 +17,11 @@ public class Environment {
 
     public void PenalizeEntity(Character Player, Opponent Enemy){
         if (Environment == "Swamp"){
-            Player.SetHP(1);
+            Player.SetHP(-1);
             Enemy.SetAttack(1);
         } else if (Environment == "Colosseum") {
             Player.SetAttack(1);
-            Enemy.SetDefense(1);
+            Enemy.SetDefense(-1);
         }
     }
 }

@@ -3,14 +3,20 @@
 import java.util.Scanner;
 import java.util.Arrays;
 public class Main {
+    static int input;
+    static Scanner SC = new Scanner(System.in);
+    static Armor SelectedArmor = null;
+    static Weapon SelectedWeapon = null;
+    static Opponent SelectedEnemy = null;
+    static Environment SelectedEnvironment = null;
+    static String EnemyLastMove = null, PlayerLastMove = null;
+    static Character Player = null;
+
     public static void main(String[] args) {
 
-        int input;
-        Scanner SC = new Scanner(System.in);
-        Armor SelectedArmor = null;
-        Weapon SelectedWeapon = null;
-        Opponent SelectedEnemy = null;
-        Environment SelectedEnvironment = null;
+
+
+        //-----------------------Armour SELECTION-----------------------------------
 
 
         //-----------------------Armour SELECTION-----------------------------------
@@ -48,7 +54,7 @@ public class Main {
             SelectedWeapon = new Weapon("Battle Axe");
         }
 
-        Character Player = new Character(SelectedArmor,SelectedWeapon);
+         Player = new Character(SelectedArmor,SelectedWeapon);
 
         //-----------------------ENEMY SELECTION-----------------------------------
         System.out.println("=======SELECT YOUR ENEMY=========");
@@ -85,6 +91,112 @@ public class Main {
         }
 
 
+        //-----------------------TURN BASED FIGHTING ALGORITHM-----------------------------------
+
+        System.out.println("==============================================");
+        System.out.println("\t\t\t  ⚔\uFE0F FIGHT!!! ⚔\uFE0F");
+        System.out.println("==============================================");
+
+
+            while(Player.GetHP() != 0 || SelectedEnemy.GetHP() != 0){
+
+                System.out.println("\uD83E\uDD3A PLAYER: ❤\uFE0E "+ Player.GetHP());
+                System.out.println("\\uD83D\uDC79 ENEMY: ❤\uFE0E "+ SelectedEnemy.GetHP());
+                /*
+                * If player is faster than the Enemy
+                * He is prompted first
+                * */
+                if (Player.GetSpeed() > SelectedEnemy.GetSpeed()){
+
+                    while(Player.GetHP() != 0 || SelectedEnemy.GetHP() != 0){
+                        PlayerMoves();
+                        EnemyMoves();
+                        SelectedEnvironment.PenalizeEntity(Player, SelectedEnemy);
+                    }
+
+                }else{
+                    EnemyMoves();
+                    PlayerMoves();
+                    SelectedEnvironment.PenalizeEntity(Player, SelectedEnemy);
+                }
+
+
+            }
+
+            if(Player.GetHP() == 0){
+                System.out.println("GAMEOVER... YOU LOST!!");
+            }else{
+                System.out.println("VICTORY!!!");
+            }
+
+
+
+
+
+
+    }
+    static void PlayerMoves(){
+        System.out.println(">> Pick your Action: ");
+        System.out.println("1] Attack\n2] Defend\n3] Charge");
+
+        System.out.print("> Your Choice: ");
+        input = SC.nextInt();
+
+        do{
+            if(input == 1){
+                if(EnemyLastMove != "Defend"){
+                    Player.Attack(SelectedEnemy,-Player.GetAttack());
+                }else{
+                    Player.Attack(SelectedEnemy,(Player.GetAttack() - SelectedEnemy.GetDefense()));
+                }
+
+                if(PlayerLastMove == "Charge")
+                    Player.SetAttack(Player.GetAttack()/3);
+
+                PlayerLastMove = "Attack";
+            } else if (input == 2) {
+
+                PlayerLastMove = "Defend";
+
+            } else if (input == 3) {
+
+                if(PlayerLastMove != "Charge"){
+                    Player.SetAttack(Player.GetAttack()*3);
+                }else{
+                    System.out.println("You're already Charged!");
+                    input = 0;
+                }
+
+                PlayerLastMove = "Charge";
+            }
+
+
+            //Player is prompted again if he's already charged and picks Again
+        }while(input == 3 && PlayerLastMove == "Charge");
+
+    }
+
+    static void EnemyMoves(){
+
+        if(SelectedEnemy.Think() == "Attack"){
+            if(PlayerLastMove != "Defend"){
+                SelectedEnemy.Attack(Player, -SelectedEnemy.GetAttack());
+            }else{
+                SelectedEnemy.Attack(Player, -(SelectedEnemy.GetAttack() - Player.GetDefense()));
+            }
+
+            if(EnemyLastMove == "Charge")
+                SelectedEnemy.SetAttack(Player.GetAttack()/3);
+
+            EnemyLastMove = "Attack";
+        } else if (SelectedEnemy.Think() == "Defend") {
+            EnemyLastMove = "Defend";
+        } else if (SelectedEnemy.Think() == "Charge") {
+            SelectedEnemy.SetAttack(SelectedEnemy.GetAttack()*3);
+            EnemyLastMove = "Charge";
 
         }
+    }
+
+
     }

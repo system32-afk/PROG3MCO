@@ -22,12 +22,15 @@ public class Character {
 
     }
 
+    public void Think(){
+
+    }
 
     public void SetOpponent(Opponent enemy){
         this.Enemy = enemy;
     }
     public void SetHP(int Damage){
-        this.HitPoints -= Damage;
+        this.HitPoints += Damage;
     }
 
     public int GetHP(){
@@ -49,7 +52,7 @@ public class Character {
         return Speed;
     }
 
-    public void Attack(Opponent Enemy){
-        Enemy.SetHP(Attack);
+    public void Attack(Opponent Enemy, int Damage){
+        Enemy.SetHP(-Damage);
     }
 }
