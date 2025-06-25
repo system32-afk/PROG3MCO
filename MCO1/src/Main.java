@@ -57,6 +57,8 @@ public class Main {
          Player = new Character(SelectedArmor,SelectedWeapon);
 
         //-----------------------ENEMY SELECTION-----------------------------------
+		System.out.println();
+		System.out.println();
         System.out.println("=======SELECT YOUR ENEMY=========");
         System.out.println();
         System.out.println("==============================================");
@@ -75,6 +77,8 @@ public class Main {
         Player.SetOpponent(SelectedEnemy); //Assigns the Selected Enemy as the Player's Opponent
 
         //-----------------------ENVIRONMENT SELECTION-----------------------------------
+		System.out.println();
+		System.out.println();
         System.out.println("=======SELECT YOUR ENVIRONMENT=========");
         System.out.println();
         System.out.println("==============================================");
@@ -137,54 +141,53 @@ public class Main {
     }
     static void PlayerMoves(){
 
-        do{
+    do{
 
-            System.out.println(">> Pick your Action: ");
-            System.out.println("1] Attack\n2] Defend\n3] Charge");
+        System.out.println(">> Pick your Action: ");
+        System.out.println("1] Attack\n2] Defend\n3] Charge");
 
-            System.out.print("> Your Choice: ");
-            input = SC.nextInt();
+        System.out.print("> Your Choice: ");
+        input = SC.nextInt();
 
-            if(input == 1){
+        if(input == 1){
 
-                System.out.println("You attacked!\uD83D\uDDE1\uFE0F \nYou dealt "+ Player.GetAttack()+"!");
+            System.out.println("You attacked!\uD83D\uDDE1\uFE0F \nYou dealt "+ Player.GetAttack()+"!");
 
-                if(EnemyLastMove != "Defend"){
-                    Player.Attack(SelectedEnemy,-Player.GetAttack());
-                }else{
-                    Player.Attack(SelectedEnemy,(Player.GetAttack() - SelectedEnemy.GetDefense()));
-                }
-
-                //Resets Player attack stats to base after attacking
-                if(PlayerLastMove == "Charge")
-                    Player.ResetAttack();
-
-                PlayerLastMove = "Attack";
-            } else if (input == 2) {
-                System.out.println("You Defend!\uD83D\uDEE1\uFE0F \nThe enemy's next attack will deal "+ Player.GetDefense()+" less Damage!");
-                PlayerLastMove = "Defend";
-
-            } else if (input == 3) {
-
-                if(PlayerLastMove != "Charge"){
-                    System.out.println("You Charged!\uD83D\uDCAA \nYour attack rose to "+ (Player.GetAttack()*3)+"!");
-                    Player.ChargeAttack();
-                    input = 0;
-
-                }else{
-                    System.out.println("You're already Charged!");
-                }
-
-                PlayerLastMove = "Charge";
+			// Using .equals() instead of == for string comparisons
+            if(!"Defend".equals(EnemyLastMove)){
+                Player.Attack(SelectedEnemy,-Player.GetAttack());
+            }else{
+                Player.Attack(SelectedEnemy,(Player.GetAttack() - SelectedEnemy.GetDefense()));
             }
 
+            //Resets Player attack stats to base after attacking
+            if("Charge".equals(PlayerLastMove))
+                Player.ResetAttack();
 
+            PlayerLastMove = "Attack";
+        } else if (input == 2) {
+            System.out.println("You Defend!\uD83D\uDEE1\uFE0F \nThe enemy's next attack will deal "+ Player.GetDefense()+" less Damage!");
+            PlayerLastMove = "Defend";
 
+        } else if (input == 3) {
 
-            //Player is prompted again if he's already charged and picks Again
-        }while(input == 3 && PlayerLastMove == "Charge");
+            if(!"Charge".equals(PlayerLastMove)){
+                System.out.println("You Charged!\uD83D\uDCAA \nYour attack rose to "+ (Player.GetAttack()*3)+"!");
+                Player.ChargeAttack();
+                input = 0;
 
-    }
+            }else{
+                System.out.println("You're already Charged!");
+            }
+
+            PlayerLastMove = "Charge";
+        }
+
+        //Player is prompted again if he's already charged and picks Again
+    }while(input == 3 && "Charge".equals(PlayerLastMove));
+
+}
+
 
     static void EnemyMoves(){
 
@@ -231,6 +234,7 @@ public class Main {
     }
 
     static void ClearScreen() {
+		SC.nextLine();
         System.out.print("Press Enter to continue");
         String buffer = SC.nextLine();
         for(int i = 0; i < 50; i++) {
