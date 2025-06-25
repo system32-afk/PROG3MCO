@@ -1,7 +1,6 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 import java.util.Scanner;
-import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
+
 public class Main {
     static int input;
     static Scanner SC = new Scanner(System.in);
@@ -11,8 +10,9 @@ public class Main {
     static Environment SelectedEnvironment = null;
     static String EnemyLastMove = null, PlayerLastMove = null;
     static Character Player = null;
+    static int Winner;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
 
 
@@ -100,28 +100,37 @@ public class Main {
         System.out.println("==============================================");
         System.out.println("\t\t\t  ⚔\uFE0F FIGHT!!! ⚔\uFE0F");
         System.out.println("==============================================");
-        DisplayFight();
-        ClearScreen();
 
-        while(Player.GetHP() != 0 || SelectedEnemy.GetHP() != 0){
+
+        while(Player.GetHP() > 0 || SelectedEnemy.GetHP() > 0){
             /*
             * If player is faster than the Enemy
             * He is prompted first
             * */
             if (Player.GetSpeed() > SelectedEnemy.GetSpeed()){
 
-                PlayerMoves();
                 DisplayFight();
-                ClearScreen();
+                PlayerMoves();
+                System.out.println();
+                TimeUnit.SECONDS.sleep(2);
                 EnemyMoves();
+                System.out.println();
+                TimeUnit.SECONDS.sleep(2);
                 SelectedEnvironment.PenalizeEntity(Player, SelectedEnemy);
+                System.out.println();
+                ClearScreen();
+
             }else{
 
-                EnemyMoves();
-                ClearScreen();
                 DisplayFight();
+                EnemyMoves();
+                System.out.println();
                 PlayerMoves();
+                System.out.println();
+                TimeUnit.SECONDS.sleep(2);
                 SelectedEnvironment.PenalizeEntity(Player, SelectedEnemy);
+                System.out.println();
+                ClearScreen();
             }
 
 
@@ -228,7 +237,7 @@ public class Main {
         System.out.println("================== VS =====================");
         System.out.println("\uD83D\uDC79 ENEMY:");
         System.out.println("ATK \uD83D\uDDE1\uFE0F: "+ SelectedEnemy.GetAttack());
-        System.out.println("HP ❤\\uFE0E: "+ SelectedEnemy.GetHP());
+        System.out.println("HP ❤\uFE0E: "+ SelectedEnemy.GetHP());
         System.out.println("DEF\uD83D\uDEE1\uFE0F: "+ SelectedEnemy.GetDefense());
         System.out.println("SPD ⚡: "+ SelectedEnemy.GetSpeed());
     }

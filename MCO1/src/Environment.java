@@ -19,9 +19,14 @@ public class Environment {
         if (Environment == "Swamp"){
             Player.SetHP(-1);
             Enemy.SetAttack(1);
+
+            System.out.println("SWAMP EFFECT: PLAYER LOSES 1HP, ENEMY GETS 1PT ATTACK BUFF...");
         } else if (Environment == "Colosseum") {
             Player.SetAttack(1);
             Enemy.SetDefense(-1);
+            System.out.println("SWAMP EFFECT: PLAYER LOSES 1HP, ENEMY GETS 1PT ATTACK BUFF...");
+        }else{
+            System.out.println("ARENA EFFECT: NONE...");
         }
     }
 }
