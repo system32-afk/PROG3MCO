@@ -227,7 +227,7 @@ public class Main {
 
         }
     }
-
+//update
     static void DisplayFight(){
         System.out.println("\uD83E\uDD3A PLAYER:");
         System.out.println("ATK \uD83D\uDDE1\uFE0F: "+ Player.GetAttack());
