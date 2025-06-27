@@ -1,3 +1,5 @@
+import com.sun.jdi.Value;
+
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
@@ -8,6 +10,8 @@ public class Opponent {
     private int Defense = 1;
     private int Speed = 50;
     private Character Player;
+    private boolean IsCharged;
+    private boolean IsDefended;
     ArrayList<String> MoveSet = new ArrayList<>();
 
 
@@ -48,7 +52,7 @@ public class Opponent {
         return Type;
     }
     public void SetHP(int Damage){
-        this.HitPoints -= Damage;
+        this.HitPoints += Damage;
     }
 
     public int GetHP(){
@@ -62,9 +66,11 @@ public class Opponent {
         return Attack;
     }
 
-    public void SetDefense(int Debuff){
-        this.HitPoints += Debuff;
+
+    public void SetDefense(int value){
+        this.Defense += value;
     }
+
     public int GetDefense(){
         return Defense;
     }
@@ -73,16 +79,24 @@ public class Opponent {
         return Speed;
     }
 
-    public void Attack(Character Player,int Damage){
+    public void Attack(int Damage){
         Player.SetHP(-Attack);
     }
 
-    public void ChargeAttack(){
-        this.Attack *= 3;
+    public void Charge(boolean value){
+        this.IsCharged = value;
     }
 
-    public  void ResetAttack(){
-        this.Attack /= 3;
+    public Boolean GetCharge(){
+        return IsCharged;
+    }
+
+    public void Defend(boolean value){
+        this.IsDefended = value;
+    }
+
+    public boolean GetDefend(){
+        return IsDefended;
     }
 
 

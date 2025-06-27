@@ -7,15 +7,15 @@ public class Armor {
         if (type == "Light"){
             this.Type = type;
             this.Defense = 20;
-            this.SpeedPenalty = 0;
+            this.SpeedPenalty = 5;
         } else if (type == "Medium") {
             this.Type = type;
             this.Defense = 30;
-            this.SpeedPenalty = 10;
+            this.SpeedPenalty = 15;
         } else if (type == "Heavy") {
             this.Type = type;
             this.Defense = 40;
-            this.SpeedPenalty = 20;
+            this.SpeedPenalty = 25;
         }
     }
 

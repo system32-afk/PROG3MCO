@@ -6,7 +6,8 @@ public class Character {
     private Armor Armor;
     private Weapon weapon;
     private Opponent Enemy;
-    private boolean IsCharged; //to be changed, im not sure pa
+    private boolean IsCharged;
+    private boolean IsDefended;
 
     public Character(Armor armor, Weapon wpn){
 
@@ -22,9 +23,7 @@ public class Character {
 
     }
 
-    public void Think(){
 
-    }
 
     public void SetOpponent(Opponent enemy){
         this.Enemy = enemy;
@@ -37,11 +36,19 @@ public class Character {
         return HitPoints;
     }
 
-    public void SetAttack(int Buff){
-        Attack += Buff;
+    public void SetAttack(int Value){
+        Attack = Value;
     }
     public int GetAttack(){
         return Attack;
+    }
+
+    public void Defend(boolean value){
+        IsDefended = value;
+    }
+
+    public boolean isDefended() {
+        return IsDefended;
     }
 
     public int GetDefense(){
@@ -52,15 +59,15 @@ public class Character {
         return Speed;
     }
 
-    public void Attack(Opponent Enemy, int Damage){
+    public void Attack(int Damage){
         Enemy.SetHP(-Damage);
     }
 
-    public void ChargeAttack(){
-        this.Attack *= 3;
+    public boolean GetCharge(){
+        return this.IsCharged;
     }
 
-    public  void ResetAttack(){
-        this.Attack /= 3;
+    public void Charge(boolean Condition){
+        this.IsCharged = Condition;
     }
 }
