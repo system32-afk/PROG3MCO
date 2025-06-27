@@ -243,19 +243,17 @@ public class Main {
     }
 
     static void ClearScreen() {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
+
 		SC.nextLine();
         System.out.print("Press Enter to continue");
         String buffer = SC.nextLine();
-=======
+
         System.out.print("Press Enter to continue ");
-        String buffer = SC.next();
->>>>>>> Stashed changes
-=======
+        buffer = SC.next();
+
         System.out.print("Press Enter to continue ");
-        String buffer = SC.next();
->>>>>>> Stashed changes
+        buffer = SC.next();
+
         for(int i = 0; i < 50; i++) {
             System.out.println();
         }
