@@ -30,11 +30,11 @@ public class Main {
         input = SC.nextInt();
 
         if(input == 1){
-             SelectedArmor = new Armor("Light");
+            SelectedArmor = new Armor("Light");
         } else if (input==2) {
-             SelectedArmor = new Armor("Medium");
+            SelectedArmor = new Armor("Medium");
         } else if (input == 3) {
-             SelectedArmor = new Armor("Heavy");
+            SelectedArmor = new Armor("Heavy");
         }
 
 
@@ -54,11 +54,11 @@ public class Main {
             SelectedWeapon = new Weapon("Battle Axe");
         }
 
-         Player = new Character(SelectedArmor,SelectedWeapon);
+        Player = new Character(SelectedArmor,SelectedWeapon);
 
         //-----------------------ENEMY SELECTION-----------------------------------
-		System.out.println();
-		System.out.println();
+        System.out.println();
+        System.out.println();
         System.out.println("=======SELECT YOUR ENEMY=========");
         System.out.println();
         System.out.println("==============================================");
@@ -77,8 +77,8 @@ public class Main {
         Player.SetOpponent(SelectedEnemy); //Assigns the Selected Enemy as the Player's Opponent
 
         //-----------------------ENVIRONMENT SELECTION-----------------------------------
-		System.out.println();
-		System.out.println();
+        System.out.println();
+        System.out.println();
         System.out.println("=======SELECT YOUR ENVIRONMENT=========");
         System.out.println();
         System.out.println("==============================================");
@@ -104,9 +104,9 @@ public class Main {
 
         while(Player.GetHP() > 0 || SelectedEnemy.GetHP() > 0){
             /*
-            * If player is faster than the Enemy
-            * He is prompted first
-            * */
+             * If player is faster than the Enemy
+             * He is prompted first
+             * */
             if (Player.GetSpeed() > SelectedEnemy.GetSpeed()){
 
                 DisplayFight();
@@ -228,7 +228,7 @@ public class Main {
 
         }
     }
-//update
+    //update
     static void DisplayFight(){
         System.out.println("\uD83E\uDD3A PLAYER:");
         System.out.println("ATK \uD83D\uDDE1\uFE0F: "+ Player.GetAttack());
@@ -244,20 +244,12 @@ public class Main {
     }
 
     static void ClearScreen() {
-
-		SC.nextLine();
-        System.out.print("Press Enter to continue");
-        String buffer = SC.nextLine();
-
-        System.out.print("Press Enter to continue ");
-        buffer = SC.next();
-
-        System.out.print("Press Enter to continue ");
-        buffer = SC.next();
-
+        System.out.print("Press Enter to continue...");
+        SC.nextLine();
         for(int i = 0; i < 50; i++) {
             System.out.println();
         }
     }
 
-    }
+
+}
