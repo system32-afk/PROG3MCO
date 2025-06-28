@@ -28,8 +28,8 @@ public class Character {
     public void SetOpponent(Opponent enemy){
         this.Enemy = enemy;
     }
-    public void SetHP(int Damage){
-        this.HitPoints += Damage;
+    public void SetHP(int value){
+        this.HitPoints += value;
     }
 
     public int GetHP(){
@@ -63,7 +63,7 @@ public class Character {
         Enemy.SetHP(-Damage);
     }
 
-    public boolean GetCharge(){
+    public boolean isCharged(){
         return this.IsCharged;
     }
 

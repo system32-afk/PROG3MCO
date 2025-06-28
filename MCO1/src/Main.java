@@ -12,6 +12,9 @@ public class Main {
     static Character Player = null;
     static int GameOver = 0;
     static int TurnCounter = 1;
+    static String playerActionResult;
+    static String enemyActionResult;
+    static boolean playerFirst;
 
     public static void main(String[] args) throws InterruptedException {
         // Armor Selection
@@ -109,8 +112,8 @@ public class Main {
             PlayerChoice = PlayerMoves();
             EnemyChoice = SelectedEnemy.Think();
 
-            String playerActionResult = "";
-            String enemyActionResult = "";
+             playerActionResult = "";
+             enemyActionResult = "";
 
             if (PlayerChoice.equals("Defend")) {
                 Player.Defend(true);
@@ -121,7 +124,7 @@ public class Main {
                 enemyActionResult = "Enemy chose to defend.";
             }
 
-            boolean playerFirst = Player.GetSpeed() >= SelectedEnemy.GetSpeed();
+            playerFirst = Player.GetSpeed() >= SelectedEnemy.GetSpeed();
 
             if (playerFirst) System.out.println("You are faster! You move first.");
             else System.out.println("Enemy is faster! They move first.");
@@ -203,13 +206,41 @@ public class Main {
         int damage;
         if (SelectedEnemy.GetDefend()) {
             damage = (Player.GetAttack() - SelectedEnemy.GetDefense()) / 2;
-            if (damage <= 0) return "The enemy defended successfully. You dealt no damage!";
-            SelectedEnemy.SetHP(-damage);
+
+            if (damage <= 0){
+                //Reset's attack points
+                if(Player.isCharged()){
+                    Player.Charge(false);
+                    Player.SetAttack(Player.GetAttack()/3);
+                }
+                return "The enemy defended successfully. You dealt no damage!";
+            }
+
+            Player.Attack(damage);
+            //Reset's attack points
+            if(Player.isCharged()){
+                Player.Charge(false);
+                Player.SetAttack(Player.GetAttack()/3);
+            }
             return "The enemy was defended but you dealt " + damage + " damage.";
         } else {
             damage = Player.GetAttack() - SelectedEnemy.GetDefense();
-            if (damage <= 0) return "Your attack didn't penetrate the enemy's defense!";
-            SelectedEnemy.SetHP(-damage);
+            if (damage <= 0){
+                //Reset's attack points
+                if(Player.isCharged()){
+                    Player.Charge(false);
+                    Player.SetAttack(Player.GetAttack()/3);
+                }
+                return "Your attack didn't penetrate the enemy's defense!";
+            }
+
+            Player.Attack(damage);
+
+            //Reset's attack points
+            if(Player.isCharged()){
+                Player.Charge(false);
+                Player.SetAttack(Player.GetAttack()/3);
+            }
             return "You attacked and dealt " + damage + " damage.";
         }
     }
@@ -218,13 +249,39 @@ public class Main {
         int damage;
         if (Player.isDefended()) {
             damage = (SelectedEnemy.GetAttack() - Player.GetDefense()) / 2;
-            if (damage <= 0) return "You blocked the enemy's attack completely!";
-            Player.SetHP(-damage);
+            if (damage <= 0){
+                //resets attack points
+                if(SelectedEnemy.isCharged()){
+                    SelectedEnemy.Charge(false);
+                    SelectedEnemy.SetAttack(SelectedEnemy.GetAttack()/3);
+                }
+
+                return "You blocked the enemy's attack completely!";
+            }
+            SelectedEnemy.Attack(damage);
+
+            //resets attack points
+            if(SelectedEnemy.isCharged()){
+                SelectedEnemy.Charge(false);
+                SelectedEnemy.SetAttack(SelectedEnemy.GetAttack()/3);
+            }
             return "Enemy attacked but you defended, and took " + damage + " damage.";
         } else {
             damage = SelectedEnemy.GetAttack() - Player.GetDefense();
-            if (damage <= 0) return "Enemy attacked but it had no effect.";
-            Player.SetHP(-damage);
+            if (damage <= 0){
+                //resets attack points
+                if(SelectedEnemy.isCharged()){
+                    SelectedEnemy.Charge(false);
+                    SelectedEnemy.SetAttack(SelectedEnemy.GetAttack()/3);
+                }
+                return "Enemy attacked but it had no effect.";
+            }
+            SelectedEnemy.Attack(damage);
+            //resets attack points
+            if(SelectedEnemy.isCharged()){
+                SelectedEnemy.Charge(false);
+                SelectedEnemy.SetAttack(SelectedEnemy.GetAttack()/3);
+            }
             return "Enemy attacked and dealt " + damage + " damage.";
         }
     }
@@ -246,7 +303,7 @@ public class Main {
             if (input == '1') return "Attack";
             else if (input == '2') return "Defend";
             else if (input == '3') {
-                if (!Player.GetCharge()) {
+                if (!Player.isCharged()) {
                     Player.Charge(true);
                     Player.SetAttack(Player.GetAttack() * 3);
                     input = '0';
@@ -255,7 +312,7 @@ public class Main {
                     System.out.println("You're already Charged!");
                 }
             }
-        } while (input == '3' && Player.GetCharge());
+        } while (input == '3' && Player.isCharged());
 
         return "";
     }

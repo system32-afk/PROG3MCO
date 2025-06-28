@@ -59,8 +59,8 @@ public class Opponent {
         return HitPoints;
     }
 
-    public void SetAttack(int Buff){
-        Attack += Buff;
+    public void SetAttack(int value){
+        Attack = value;
     }
     public int GetAttack(){
         return Attack;
@@ -87,7 +87,7 @@ public class Opponent {
         this.IsCharged = value;
     }
 
-    public Boolean GetCharge(){
+    public Boolean isCharged(){
         return IsCharged;
     }
 
