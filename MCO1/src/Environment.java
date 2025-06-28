@@ -30,4 +30,11 @@ public class Environment {
             System.out.println("ARENA EFFECT: NONE...");
         }
     }
+	
+	public String getName() {
+		return this.Environment;
+	}
+	
+	
+
 }
