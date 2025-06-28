@@ -1,8 +1,16 @@
+/**
+ * Represents a weapon that affects the player's attack stat.
+ */
 public class Weapon {
+
     private String Type;
     private int Attack;
     private int SpeedPenalty;
 
+    /**
+     * Constructs a weapon with a specific type.
+     * @param type "Dagger", "Sword", or "Battle Axe"
+     */
     public Weapon(String type){
         if (type == "Dagger"){
             this.Type = type;
@@ -18,16 +26,27 @@ public class Weapon {
             this.SpeedPenalty = 20;
         }
     }
-
+    /**
+     * Returns the type of weapon.
+     * @return Weapon type
+     */
     public String GetType(){
         return Type;
     }
 
+    /**
+     * Returns the base attack value of the weapon.
+     * @return attack stat
+     */
     public int getAttack(){
         return Attack;
 
     }
 
+    /**
+     * Returns the speed penalty caused by the weapon.
+     * @return Speed penalty
+     */
     public int GetSpeedPenalty(){
         return SpeedPenalty;
     }

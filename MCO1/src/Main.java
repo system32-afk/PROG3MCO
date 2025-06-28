@@ -196,12 +196,26 @@ public class Main {
         else if (GameOver == 2) System.out.println("VICTORY!! YOU WON!");
     }
 
+
+    /**
+     * Checks the current HP of the player and opponent to determine if the game is over.
+     *
+     * @return 1 if the player lost, 2 if the player won, 0 if the game continues
+     */
     static int isGameOver() {
         if (Player.GetHP() <= 0) return 1;
         if (SelectedEnemy.GetHP() <= 0) return 2;
         return 0;
     }
 
+
+    /**
+     * Executes the player's attack logic based on whether the opponent is defending or not.
+     *
+     * Handles damage calculation, applies damage to the opponent, and resets charge state if used.
+     *
+     * @return A string describing the result of the player's attack.
+     */
     static String PlayerAttack() {
         int damage;
         if (SelectedEnemy.GetDefend()) {
@@ -245,6 +259,14 @@ public class Main {
         }
     }
 
+
+    /**
+     * Executes the opponent's attack logic based on whether the player is defending or not.
+     *
+     * Handles damage calculation, applies damage to the player, and resets charge state if used.
+     *
+     * @return A string describing the result of the enemy's attack.
+     */
     static String EnemyAttack() {
         int damage;
         if (Player.isDefended()) {
@@ -286,6 +308,14 @@ public class Main {
         }
     }
 
+    /**
+     * Displays and processes the player's action choices (Attack, Defend, Charge).
+     *
+     * If the player selects Charge, their attack is multiplied by 3 unless already charged.
+     *
+     * @return A string representing the player's chosen action.
+     * @throws InterruptedException if thread sleeping is interrupted
+     */
     static String PlayerMoves() throws InterruptedException {
         do {
             do {
@@ -317,6 +347,11 @@ public class Main {
         return "";
     }
 
+    /**
+     * Displays the current stats of both the player and the opponent on the screen.
+     *
+     * Includes HP, Attack, Defense, and Speed values.
+     */
     static void DisplayFight() {
         System.out.println("🧔 PLAYER:");
         System.out.println("HP ❤: " + Player.GetHP());
@@ -331,6 +366,11 @@ public class Main {
         System.out.println("SPD ⚡: " + SelectedEnemy.GetSpeed());
     }
 
+    /**
+     * Simulates a screen clear by asking for enter key and printing multiple new lines.
+     *
+     * Provides a pause and visual space between turns for better readability.
+     */
     static void ClearScreen() {
         SC.nextLine();
         System.out.print("Press Enter to continue...");
@@ -338,6 +378,14 @@ public class Main {
         for (int i = 0; i < 50; i++) System.out.println();
     }
 
+    /**
+     * Validates the character input by checking if it's a digit between 1 and 3.
+     *
+     * Used to confirm menu selections.
+     *
+     * @param selection the user input to validate
+     * @return true if the input is valid (1–3), false otherwise
+     */
     static boolean isInputValid(char selection) {
         int input = (int) selection - '0';
         return input >= 1 && input <= 3;

@@ -1,20 +1,29 @@
+/**
+ * Represents the battlefield environment that applies special effects during combat.
+ */
 public class Environment {
     private String Environment;
 
-
+    /**
+     * Constructs an environment with a given name.
+     * @param Environment "Arena", "Swamp", or "Colosseum"
+     */
     public Environment(String Environment){
         this.Environment = Environment;
     }
 
 
 
-    //PenalizeEntity method
-    //for every turn it will get called
-
-    //if Environment == Swamp: Inflict 1 damage to Player and Opp gains 1 atk
-    //if Environment == Colosseum: Player gains 1 atk and Opp loses 1 def point
-    //if Environment == Arena: do nothing
-
+    /**
+     * Applies penalties or buffs to the player and opponent based on the environment type.
+     *
+     * - "Swamp": Player loses 1 HP, opponent gains +1 ATK
+     * - "Colosseum": Player gains +1 ATK, opponent loses 1 DEF
+     * - "Arena": No effects
+     *
+     * @param Player the player character
+     * @param Enemy the opponent
+     */
     public void PenalizeEntity(Character Player, Opponent Enemy){
         if (Environment.equals("Swamp")){
             Player.SetHP(-1);
