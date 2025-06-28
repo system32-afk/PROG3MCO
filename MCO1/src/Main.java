@@ -142,6 +142,8 @@ public class Main {
             PlayerChoice = PlayerMoves();
             EnemyChoice = SelectedEnemy.Think();
 
+
+            //Defend commands go first before other commands
             if(PlayerChoice.equals("Defend")){
                 Player.Defend(true);
                 System.out.println("You raised your defense!");
@@ -150,73 +152,85 @@ public class Main {
             if(EnemyChoice.equals("Defend")){
                 SelectedEnemy.Defend(true);
                 System.out.println("Enemy chose defense");
-            }else if(EnemyChoice.equals("Charge")){
-                SelectedEnemy.SetAttack(SelectedEnemy.GetAttack()*3);
-                System.out.println("The Enemy Charged! their next attack will deal "+SelectedEnemy.GetAttack());
             }
 
             //Player Moves first
             if(Player.GetSpeed() > SelectedEnemy.GetSpeed()){
 
+                //Player picks attack
                 if(PlayerChoice.equals("Attack")){
 
                     PlayerAttack();
 
                     GameOver = isGameOver();
 
-                } else if (PlayerChoice.equals("Charge")) {
+                }
+                //Player picks charge
+                else if (PlayerChoice.equals("Charge")) {
                     System.out.println("You buffed your attack! Your next attack will deal "+ Player.GetAttack() );
                 }
 
                 TimeUnit.SECONDS.sleep(2); //pause for 2 seconds
 
+
+                //Enemy Picks attack
                 if (EnemyChoice.equals("Attack")){
                     EnemyAttack();
 
                     GameOver = isGameOver();
 
-                } else if (EnemyChoice.equals("Charge")) {
+                }
+
+                //Enemy picks Charge
+                else if (EnemyChoice.equals("Charge")) {
                     System.out.println("Enemy chose to Charge! their next attack will deal "+(SelectedEnemy.GetAttack()*3));
                     SelectedEnemy.Charge(true);
                     SelectedEnemy.SetAttack(SelectedEnemy.GetAttack()*3 );
                 }
-
-                ClearScreen();
 
             }
 
             //Enemy moves first
             if(Player.GetSpeed() < SelectedEnemy.GetSpeed()){
 
+                //Enemy Picks attack
                 if(EnemyChoice.equals("Attack")){
                     EnemyAttack();
 
                     GameOver = isGameOver();
 
-                } else if (EnemyChoice.equals("Charge")) {
+                }
+                //Enemy picks Charge
+                else if (EnemyChoice.equals("Charge")) {
                     System.out.println("Enemy chose to Charge! their next attack will deal "+(SelectedEnemy.GetAttack()*3));
                     SelectedEnemy.Charge(true);
                     SelectedEnemy.SetAttack(SelectedEnemy.GetAttack()*3 );
                 }
 
-                TimeUnit.SECONDS.sleep(2);
+                TimeUnit.SECONDS.sleep(2); // pause for 2 seconds
+                System.out.println();
 
+                //Player picks attack
                 if(PlayerChoice.equals("Attack")){
                     PlayerAttack();
 
                     GameOver = isGameOver();
 
-                } else if (PlayerChoice.equals("Charge")) {
+                }
+                //Player picks to Charge
+                else if (PlayerChoice.equals("Charge")) {
                     System.out.println("You buffed your attack! Your next attack will deal "+ Player.GetAttack() );
                 }
-
-                ClearScreen();
-
             }
 
+            System.out.println();
+            SelectedEnvironment.PenalizeEntity(Player,SelectedEnemy);
+            GameOver = isGameOver();//Check if penalty caused someone to die
 
+            ClearScreen();
         }
 
+        //------------GAMEOVER--------------------
         if(GameOver == 1){
             System.out.println("GAMEOVER!!! YOU LOST.");
         }else if (GameOver == 2){
@@ -244,12 +258,13 @@ public class Main {
 
     static void PlayerAttack(){
         if(SelectedEnemy.GetDefend()){
-            SelectedEnemy.SetHP(-((Player.GetAttack() - SelectedEnemy.GetDefense())/2));
+
 
             if(((Player.GetAttack() - SelectedEnemy.GetDefense())/2) <= 0){
                 System.out.println("The enemy was defended and you dealt no damage!");
             }else{
                 System.out.println("The enemy was defended but you dealt "+((Player.GetAttack() - SelectedEnemy.GetDefense())/2));
+                SelectedEnemy.SetHP(-((Player.GetAttack() - SelectedEnemy.GetDefense())/2));
             }
 
 
@@ -260,7 +275,7 @@ public class Main {
 
 
 
-        //resets the player's damage after attacking after charging
+        //resets the player's damage after attacking charging
         if(Player.GetCharge()){
             Player.Charge(false);
             Player.SetAttack(Player.GetAttack()/3);
@@ -269,17 +284,22 @@ public class Main {
 
     static void EnemyAttack(){
         if(Player.isDefended()){
-            Player.SetHP(-((SelectedEnemy.GetAttack() - Player.GetDefense())/2));
+
 
             if(((SelectedEnemy.GetAttack() - Player.GetDefense())/2) <= 0){
                 System.out.println("You were protected and the enemy did no damage!");
             }else {
                 System.out.println("You were protected but the enemy managed to deal "+((SelectedEnemy.GetAttack() - Player.GetDefense())/2));
+                Player.SetHP(-((SelectedEnemy.GetAttack() - Player.GetDefense())/2));
             }
 
         }else{
-            Player.SetHP(-(SelectedEnemy.GetAttack() - Player.GetDefense()));
-            System.out.println("Enemy chose to attack! They dealt"+SelectedEnemy.GetAttack());
+            if((SelectedEnemy.GetAttack() - Player.GetDefense())<=0){
+                System.out.println("Their attack didn't do damage!");
+            }else{
+                Player.SetHP(-(SelectedEnemy.GetAttack() - Player.GetDefense()));
+                System.out.println("Enemy chose to attack! They dealt "+ (SelectedEnemy.GetAttack()- Player.GetDefense()));
+            }
         }
 
 

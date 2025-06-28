@@ -16,15 +16,16 @@ public class Environment {
     //if Environment == Arena: do nothing
 
     public void PenalizeEntity(Character Player, Opponent Enemy){
-        if (Environment == "Swamp"){
+        if (Environment.equals("Swamp")){
             Player.SetHP(-1);
             Enemy.SetAttack(1);
 
             System.out.println("SWAMP EFFECT: PLAYER LOSES 1HP, ENEMY GETS 1PT ATTACK BUFF...");
-        } else if (Environment == "Colosseum") {
-            Player.SetAttack(1);
+
+        } else if (Environment.equals("Colosseum")) {
+            Player.SetAttack( Player.GetAttack()+1);
             Enemy.SetDefense(-1);
-            System.out.println("SWAMP EFFECT: PLAYER LOSES 1HP, ENEMY GETS 1PT ATTACK BUFF...");
+            System.out.println("COLOSSEUM EFFECT: PLAYER GAINS 1 ATK, ENEMY LOSES 1 DEF");
         }else{
             System.out.println("ARENA EFFECT: NONE...");
         }
