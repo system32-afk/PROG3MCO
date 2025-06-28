@@ -121,55 +121,71 @@ public class Main {
                 enemyActionResult = "Enemy chose to defend.";
             }
 
-            if (Player.GetSpeed() > SelectedEnemy.GetSpeed()) {
-                if (PlayerChoice.equals("Attack")) {
-                    playerActionResult = PlayerAttack();
-                    GameOver = isGameOver();
-                } else if (PlayerChoice.equals("Charge")) {
-                    playerActionResult = "You buffed your attack! Your next attack will deal " + Player.GetAttack();
-                }
-                TimeUnit.SECONDS.sleep(2);
+            boolean playerFirst = Player.GetSpeed() >= SelectedEnemy.GetSpeed();
 
-                if (EnemyChoice.equals("Attack")) {
-                    enemyActionResult = EnemyAttack();
-                    GameOver = isGameOver();
-                } else if (EnemyChoice.equals("Charge")) {
-                    SelectedEnemy.Charge(true);
-                    SelectedEnemy.SetAttack(SelectedEnemy.GetAttack() * 3);
-                    enemyActionResult = "Enemy charged! Next attack will deal " + SelectedEnemy.GetAttack();
+            if (playerFirst) System.out.println("You are faster! You move first.");
+            else System.out.println("Enemy is faster! They move first.");
+
+            System.out.println("============== TURN " + TurnCounter++ + " ==============");
+            System.out.println("🌿 Environment: " + SelectedEnvironment.getName());
+			SelectedEnvironment.PenalizeEntity(Player, SelectedEnemy);
+
+            if (playerFirst) {
+                if (!PlayerChoice.equals("Defend")) {
+                    if (PlayerChoice.equals("Attack")) {
+                        playerActionResult = PlayerAttack();
+                        GameOver = isGameOver();
+                    } else if (PlayerChoice.equals("Charge")) {
+                        playerActionResult = "You buffed your attack! Your next attack will deal " + Player.GetAttack();
+                    }
+                    System.out.println("\n🤺 You used: " + PlayerChoice);
+                    System.out.println("→ " + playerActionResult);
+                }
+
+                TimeUnit.SECONDS.sleep(2); // Delays during player mid-fight to look cool.
+
+                if (!EnemyChoice.equals("Defend")) {
+                    if (EnemyChoice.equals("Attack")) {
+                        enemyActionResult = EnemyAttack();
+                        GameOver = isGameOver();
+                    } else if (EnemyChoice.equals("Charge")) {
+                        SelectedEnemy.Charge(true);
+                        SelectedEnemy.SetAttack(SelectedEnemy.GetAttack() * 3);
+                        enemyActionResult = "Enemy charged! Next attack will deal " + SelectedEnemy.GetAttack();
+                    }
+                    System.out.println("\n👹 Enemy used: " + EnemyChoice);
+                    System.out.println("→ " + enemyActionResult);
                 }
             } else {
-                if (EnemyChoice.equals("Attack")) {
-                    enemyActionResult = EnemyAttack();
-                    GameOver = isGameOver();
-                } else if (EnemyChoice.equals("Charge")) {
-                    SelectedEnemy.Charge(true);
-                    SelectedEnemy.SetAttack(SelectedEnemy.GetAttack() * 3);
-                    enemyActionResult = "Enemy charged! Next attack will deal " + SelectedEnemy.GetAttack();
+                if (!EnemyChoice.equals("Defend")) {
+                    if (EnemyChoice.equals("Attack")) {
+                        enemyActionResult = EnemyAttack();
+                        GameOver = isGameOver();
+                    } else if (EnemyChoice.equals("Charge")) {
+                        SelectedEnemy.Charge(true);
+                        SelectedEnemy.SetAttack(SelectedEnemy.GetAttack() * 3);
+                        enemyActionResult = "Enemy charged! Next attack will deal " + SelectedEnemy.GetAttack();
+                    }
+                    System.out.println("\n👹 Enemy used: " + EnemyChoice);
+                    System.out.println("→ " + enemyActionResult);
                 }
+
                 TimeUnit.SECONDS.sleep(2);
 
-                if (PlayerChoice.equals("Attack")) {
-                    playerActionResult = PlayerAttack();
-                    GameOver = isGameOver();
-                } else if (PlayerChoice.equals("Charge")) {
-                    playerActionResult = "You buffed your attack! Your next attack will deal " + Player.GetAttack();
+                if (!PlayerChoice.equals("Defend")) {
+                    if (PlayerChoice.equals("Attack")) {
+                        playerActionResult = PlayerAttack();
+                        GameOver = isGameOver();
+                    } else if (PlayerChoice.equals("Charge")) {
+                        playerActionResult = "You buffed your attack! Your next attack will deal " + Player.GetAttack();
+                    }
+                    System.out.println("\n🤺 You used: " + PlayerChoice);
+                    System.out.println("→ " + playerActionResult);
                 }
             }
 
-			
-            System.out.println("============== TURN " + TurnCounter++ + " ==============");
-            System.out.println("🌿 Environment: " + SelectedEnvironment.getName());
-            SelectedEnvironment.PenalizeEntity(Player, SelectedEnemy);
-
-            System.out.println("\n🤺 You used: " + PlayerChoice);
-            System.out.println("→ " + playerActionResult);
-
-            System.out.println("\n👹 Enemy used: " + EnemyChoice);
-            System.out.println("→ " + enemyActionResult);
-            System.out.println("========================================\n");
-
             GameOver = isGameOver();
+            System.out.println("========================================\n");
             ClearScreen();
         }
 
@@ -189,13 +205,11 @@ public class Main {
             damage = (Player.GetAttack() - SelectedEnemy.GetDefense()) / 2;
             if (damage <= 0) return "The enemy defended successfully. You dealt no damage!";
             SelectedEnemy.SetHP(-damage);
-			
             return "The enemy was defended but you dealt " + damage + " damage.";
         } else {
             damage = Player.GetAttack() - SelectedEnemy.GetDefense();
             if (damage <= 0) return "Your attack didn't penetrate the enemy's defense!";
             SelectedEnemy.SetHP(-damage);
-			
             return "You attacked and dealt " + damage + " damage.";
         }
     }
@@ -206,13 +220,11 @@ public class Main {
             damage = (SelectedEnemy.GetAttack() - Player.GetDefense()) / 2;
             if (damage <= 0) return "You blocked the enemy's attack completely!";
             Player.SetHP(-damage);
-			
             return "Enemy attacked but you defended, and took " + damage + " damage.";
         } else {
             damage = SelectedEnemy.GetAttack() - Player.GetDefense();
             if (damage <= 0) return "Enemy attacked but it had no effect.";
             Player.SetHP(-damage);
-			
             return "Enemy attacked and dealt " + damage + " damage.";
         }
     }
@@ -260,18 +272,13 @@ public class Main {
         System.out.println("ATK 🗡: " + SelectedEnemy.GetAttack());
         System.out.println("DEF🛡: " + SelectedEnemy.GetDefense());
         System.out.println("SPD ⚡: " + SelectedEnemy.GetSpeed());
-		
-		
     }
-
 
     static void ClearScreen() {
         SC.nextLine();
         System.out.print("Press Enter to continue...");
         SC.nextLine();
-
-        for (int i = 0; i < 50; i++) 
-            System.out.println();
+        for (int i = 0; i < 50; i++) System.out.println();
     }
 
     static boolean isInputValid(char selection) {
