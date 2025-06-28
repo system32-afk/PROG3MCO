@@ -18,7 +18,7 @@ public class Environment {
     public void PenalizeEntity(Character Player, Opponent Enemy){
         if (Environment.equals("Swamp")){
             Player.SetHP(-1);
-            Enemy.SetAttack(1);
+            Enemy.SetAttack(Enemy.GetAttack()+1);
 
             System.out.println("SWAMP EFFECT: PLAYER LOSES 1HP, ENEMY GETS 1PT ATTACK BUFF...");
 
